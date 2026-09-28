@@ -1,15 +1,35 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions
-on: [push]
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  Explore-GitHub-Actions:
+  deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Primeiro Step do fluxo
-        run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - name: Segundo Step do fluxo
-        run: echo "A ação está sendo gerado no Sistema Operacional ${{ runner.os }}."
-      - name: Terceiro Step do fluxo
-        run: echo "O repositório que está sendo utilizado é o ${{ github.repository }}."
-      - name: Ultimo Step do fluxo
-        run: echo "Criado em 14/09/2026."
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Fazer upload do site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
