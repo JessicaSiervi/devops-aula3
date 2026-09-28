@@ -1,4 +1,4 @@
-name: Deploy site
+name: Deploy GitHub Pages
 
 on:
   push:
@@ -30,6 +30,6 @@ jobs:
         with:
           path: .
 
-      - name: Publicar no GitHub Pages
+      - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4
