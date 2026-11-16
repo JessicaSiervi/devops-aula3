@@ -46,4 +46,12 @@ jobs:
         run: |
           echo "Todos os arquivos foram carregados no Runner!"
 
-      
+      - name: Preparando Versão de Produção
+        run: |
+          echo "Iniciando Pipeline de preparação"
+
+          mkdir -p dist
+          cp index.html dist/
+          cp style.css dist/2>/dev/null || echo "Aviso:style.css não encontrado, ignorando."
+          ls -R dist
+          echo "Pasta de produção (dist) criada com sucesso!"
